@@ -4,7 +4,7 @@ using System.Collections;
 public class Item : MonoBehaviour {
     Transform tr;
     public float min = -100, max = 500f;
-
+	
     [HideInInspector]
     public bool on = false;
     Transform panel;
@@ -12,7 +12,7 @@ public class Item : MonoBehaviour {
     void Start()
     {
         tr = transform;
-        panel = transform.parent.parent;
+		panel = NGUITools.FindInParents<UIDraggablePanel> (gameObject).transform;
     }
 
     void OnOutside()
@@ -20,10 +20,15 @@ public class Item : MonoBehaviour {
         Destroy(gameObject);
     }
 
+	bool IsOutside ()
+	{
+		Vector3 pos = tr.localPosition + panel.localPosition;
+		return (pos.y > max || pos.y < min) || (pos.x > max || pos.x < min);
+	}
+
     void Update()
     {
-        Vector3 pos = tr.localPosition + panel.localPosition;
-        if (pos.x > max || pos.x < min)
+        if (IsOutside())
         {
             if (!on) OnOutside();
         }
