@@ -2,4 +2,4 @@
 (forked from textcube/dietscroller)
 
 * Support Horizontal/ Vertical Mode
-# Support NGUI 3.0
+* Support NGUI 3.0
