@@ -19,18 +19,20 @@ public class DietScroller : MonoBehaviour {
     void Start()
     {
 		// Update panel's scale
-		UIDraggablePanel draggablePanel = panel.GetComponent<UIDraggablePanel> ();
+		UIScrollView scrollView = panel.GetComponent<UIScrollView> ();
 
-        BoxCollider col = collider as BoxCollider;
+        BoxCollider col = GetComponent<BoxCollider>();
 
 		if (scrollMode == ScrollMode.Horizontal)
 		{
-			draggablePanel.scale = new Vector3(1f, 0f, 1f); // allow horizontal scroll
+			// Allow horizontal scroll
+			scrollView.movement = UIScrollView.Movement.Horizontal;
 			col.size = new Vector3 (cellWidth * total, cellHeight, 1f);
 			col.center = new Vector3 (cellWidth * (total - 1) / 2f, 0f, 0f);
 		} else if (scrollMode == ScrollMode.Vertical)
 		{
-			draggablePanel.scale = new Vector3(0f, 1f, 1f); // allow vertical scroll
+			// Allow vertical scroll
+			scrollView.movement = UIScrollView.Movement.Vertical;
 			col.size = new Vector3 (cellWidth, cellHeight * total, 1f);
 			col.center = new Vector3 (0f, - cellHeight * (total - 1) / 2f, 0f);
 		}
@@ -42,6 +44,8 @@ public class DietScroller : MonoBehaviour {
 
     void AddItem(int seq)
     {
+
+		if (itemList == null) return;
         if (seq < 0 || seq >= total) return;
         if (itemList[seq]) return;
 
@@ -90,7 +94,7 @@ public class DietScroller : MonoBehaviour {
 			pos = Mathf.Abs (Mathf.FloorToInt (posY / cellHeight));
 		}
 
-		// Batch Update
+		// Batch Update Items
 		for (int i = -1; i < bundle; i++)
 		{
 			int seq = i + pos;

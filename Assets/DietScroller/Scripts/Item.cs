@@ -12,7 +12,7 @@ public class Item : MonoBehaviour {
     void Start()
     {
         tr = transform;
-		panel = NGUITools.FindInParents<UIDraggablePanel> (gameObject).transform;
+		panel = NGUITools.FindInParents<UIScrollView> (gameObject).transform;
     }
 
     void OnOutside()
